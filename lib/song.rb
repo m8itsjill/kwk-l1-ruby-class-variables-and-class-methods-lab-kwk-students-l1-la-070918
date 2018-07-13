@@ -1,30 +1,41 @@
-class Song
+class Transfer
+  attr_reader :amount, :sender, :receiver
+  attr_accessor :status
 
-attr.accessor :name, :artist, :genre 
+  def initialize(sender, receiver, amount)
+    @status = "pending"
+    @sender = sender
+    @receiver = receiver
+    @amount = amount
+  end
 
-@@count = 0
-@@genres = []
+  def valid?
+    sender.valid? && receiver.valid?
+  end
 
-def initialize(name,artist,genre)
-  @name= name
-  @artist= artist
-  @genre= genre
-  @@count += 0 
-  @@genres << genre 
-  @@artists << artist
+  def execute_transaction
+    if valid? && sender.balance > amount && self.status == "pending"
+      sender.balance -= amount
+      receiver.balance += amount
+      self.status = "complete"
+    else
+      reject_transfer
+    end
+  end
+
+  def reverse_transfer
+    if valid? && receiver.balance > amount && self.status == "complete"
+      receiver.balance -= amount
+      sender.balance += amount
+      self.status = "reversed"
+    else
+      reject_transfer
+    end
+  end
+
+  def reject_transfer
+    self.status = "rejected"
+    "Transaction rejected. Please check your account balance."
+  end
 end
-
-def self.count 
-  @@count
-end
-
-def self.artists 
-  @@artists
-end
-
-def self.artist_count
-  artist_count{} 
-@@artists.each do |artist|
-if artist_count
-
   
