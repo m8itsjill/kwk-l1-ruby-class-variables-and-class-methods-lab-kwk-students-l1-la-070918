@@ -8,3 +8,4 @@ attr.accessor: :name, :artist, :genre
 def initialize(name,artist,genre)
   
   
+  
