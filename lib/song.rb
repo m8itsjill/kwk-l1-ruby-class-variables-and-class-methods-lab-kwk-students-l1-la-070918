@@ -1,3 +1,3 @@
 class Song
 
-attr.accessor: 
+attr.accessor: name, artists
